@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "Login API Tests",
+    "description": "Test cases for login API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "TC_003: Login API Validation - Valid Credentials",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC_003: Response status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('TC_003: Response contains success message', function () {",
+              "    const responseJson = pm.response.json();",
+              "    pm.expect(responseJson.success).to.be.true;",
+              "    pm.expect(responseJson.message).to.eql('Login successful');",
+              "});",
+              "",
+              "console.log('TC_003: PASS - Response received as expected');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TC_004: Invalid Credentials API Test",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('TC_004: Response status code is 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test('TC_004: Response contains error message', function () {",
+              "    const responseJson = pm.response.json();",
+              "    pm.expect(responseJson.success).to.be.false;",
+              "    pm.expect(responseJson.message).to.eql('Invalid credentials');",
+              "});",
+              "",
+              "console.log('TC_004: PASS - Unauthorized error returned correctly');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"wrongpassword\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      }
+    }
+  ]
+}
